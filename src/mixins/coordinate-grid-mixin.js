@@ -11,6 +11,7 @@ import marginMixin from "./margin-mixin"
 import {utils} from "../utils/utils"
 import rangeMixin from "../mixins/range-mixin"
 import {redrawAllAsync} from "../core/core-async"
+import {deregisterChart} from "../core/core"
 
  /**
   * Coordinate Grid is an abstract base chart designed to support a number of coordinate grid based
@@ -159,7 +160,11 @@ export default function coordinateGridMixin (_chart) {
       return _rangeChart
     }
     _rangeChart = rangeChart
-    _rangeChart.focusChart(_chart)
+
+    if (_rangeChart) {
+      _rangeChart.focusChart(_chart)
+    }
+
     return _chart
   }
 
@@ -1417,9 +1422,12 @@ export default function coordinateGridMixin (_chart) {
   }
 
   _chart.destroyChart = function () {
-    if (_chart.rangeChartEnabled()) {
-      _chart.rangeChartEnabled(false)
-    }
+    deregisterChart(_chart)
+    _chart
+      .root()
+      .attr("style", "")
+      .attr("class", "")
+      .html("")
   }
 
   _chart.rangeFocused = function (_) {
