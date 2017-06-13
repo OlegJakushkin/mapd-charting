@@ -1467,7 +1467,6 @@ export default function coordinateGridMixin (_chart) {
     return _chart
   }
 
-
      /* istanbul ignore next */
   _chart.getBinInputVal = function () {
     return _chart.binInputOptions().filter((d) => d.val === _chart.timeBinInputVal())
@@ -1736,7 +1735,7 @@ export default function coordinateGridMixin (_chart) {
          })
   }
 
-  _chart = rangeMixin(binningMixin(_chart))
+  _chart = binningMixin(_chart)
 
   return _chart
 }
